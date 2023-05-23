@@ -2,6 +2,22 @@ stages:
   - build
   - deploy
 
+archive:
+  stage: archiving
+
+  before_script:
+    - apt-get update
+    - apt-get install zip -y
+
+  script:
+    - echo "Archiving lambda code"
+    - zip -r $CI_PROJECT_NAME.zip *
+
+  artifacts:
+    paths:
+      - $CI_PROJECT_NAME.zip
+
+
 build:
   stage: build
   image: ruby:2.7
@@ -23,7 +39,7 @@ deploy:
 
   script:
     - echo "Deploying code"
-    - aws lambda update-function-code --function-name $LAMBDA_FUNCTION_NAME --region $AWS_REGION --zip-file fileb://$(ls -1t *.zip | head -n 1)
+    - aws lambda update-function-code --function-name $LAMBDA_FUNCTION_NAME --region $AWS_REGION --zip-file fileb://$CI_PROJECT_NAME.zip
 
   only:
     - main
