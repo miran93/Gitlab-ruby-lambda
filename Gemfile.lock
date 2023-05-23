@@ -1,0 +1,13 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    simpletable (0.3.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  simpletable
+
+BUNDLED WITH
+   1.17.1
