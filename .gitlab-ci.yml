@@ -17,10 +17,9 @@ build:
 
 deploy:
   stage: deploy
-
-  before_script:
-    - pip install awscli
-    - aws --version
+  image:
+    name: amazon/aws-cli:latest
+    entrypoint: [""]
 
   script:
     - echo "Deploying code"
