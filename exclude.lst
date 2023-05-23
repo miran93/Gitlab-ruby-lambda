@@ -1,0 +1,7 @@
+*.swp
+*.git*
+exclude.lst
+Gemfile.lock
+Gemfile
+Rakefile
+lambdaconfig.yml
