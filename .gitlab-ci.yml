@@ -7,6 +7,8 @@ build:
   image: ruby:2.7
   script:
     - gem install bundler
+    - bundle update --bundler
+    - gem install bundler:1.17.1
     - bundle install --deployment
 
   artifacts:
@@ -15,13 +17,14 @@ build:
 
 deploy:
   stage: deploy
-  image:
-    name: amazon/aws-cli:latest
-    entrypoint: [""]
+
+  before_script:
+    - pip install awscli
+    - aws --version
+
   script:
+    - echo "Deploying code"
     - aws lambda update-function-code --function-name $LAMBDA_FUNCTION_NAME --region $AWS_REGION --zip-file fileb://$(ls -1t *.zip | head -n 1)
 
-  dependencies:
-    - build
   only:
-    - master
+    - main
