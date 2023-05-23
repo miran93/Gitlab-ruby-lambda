@@ -40,7 +40,7 @@ deploy:
 
   script:
     - echo "Deploying code"
-    - aws lambda update-function-code --function-name $LAMBDA_FUNCTION_NAME --region $AWS_REGION --zip-file fileb://$CI_PROJECT_NAME.zip
+    - aws lambda update-function-code --function-name $LAMBDA_FUNCTION --zip-file fileb://$CI_PROJECT_NAME.zip
 
   only:
     - main
