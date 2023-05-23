@@ -1,0 +1,27 @@
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  image: ruby:2.7
+  script:
+    - gem install bundler
+    - bundle install --without development test --deployment
+
+  artifacts:
+    paths:
+      - vendor/bundle
+
+deploy:
+  stage: deploy
+  image:
+    name: amazon/aws-cli:latest
+    entrypoint: [""]
+  script:
+    - aws lambda update-function-code --function-name $LAMBDA_FUNCTION_NAME --region $AWS_REGION --zip-file fileb://$(ls -1t *.zip | head -n 1)
+
+  dependencies:
+    - build
+  only:
+    - master
